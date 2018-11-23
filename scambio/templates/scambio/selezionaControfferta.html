@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% extends 'collezione/base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block titolo %}
+        Euros - Selezione Contro Offerta
+    {% endblock %}
+    {% block head %}
+        <title>Euros - Selezione Contro Offerta</title>
+    {% endblock %}
+</head>
+<body>
+    {% block content %}
+        {% load static %}
+        <form action="{% url 'scambio:contrOffertaSelezionata' %}" method="post">
+        <form>
+            {% csrf_token %}
+            <input type="hidden" name="scambio_id" value="{{ scambio.id }}">
+            {% for moneta in monete %}
+                {% if moneta.valore == valore_min %}
+                    <p style="background: gray;"><b>{{ moneta.nazionalita }}</b></p>
+                    <table border="2">
+                    <tr>
+                {%  endif %}
+                    <td><button class="moneta" value="{{ moneta.id }}" name="moneta_id" type="submit"><img class="moneta catalogo posseduta" src="{% static moneta.foto %}"></button></td>
+                    <td>{{ moneta.valore }}</td>
+                {% if moneta.valore == valore_max %}
+                    </tr>
+                    </table><br>
+                {%  endif %}
+            {% endfor %}
+        </form>
+    {% endblock %}
+</body>
+</html>

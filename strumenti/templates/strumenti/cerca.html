@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+{% extends 'collezione/base.html' %}
+<html lang="en">
+    <head>
+    <script>
+
+    </script>
+        <meta charset="UTF-8">
+        {% block titolo %}
+            Euros - Cerca
+        {% endblock %}
+        {% block head %}
+            <title>Euros - Cerca</title>
+        {% endblock %}
+    </head>
+    <body>
+        {% block indietro %}
+            <button onclick="goBack()">Indietro</button>
+        {% endblock %}
+        {% block content %}
+             <form action="" method="post">
+                {% csrf_token %}
+                {% load static %}
+                <select name="nazionalita">
+                    <option value=".+">Nazionalita</option>
+                {% for nazione in nazionalita_select %}
+                    <option value="{{ nazione }}">{{ nazione }}</option>
+                {% endfor %}
+                </select>
+
+                <select name="valore">
+                    <option value=".+">Valore</option>
+                {% for valore in valori_select %}
+                    <option value="{{ valore }}">{{ valore }}</option>
+                {% endfor %}
+                </select>
+
+                <label>Disponibile allo scambio:
+                    <input type="checkbox" name="scambio" checked>
+                </label>
+                <label>Disponibile all'acquisto:
+                    <input type="checkbox" name="acquisto" checked>
+                </label>
+                <label>Non possedute:
+                    <input type="checkbox" name="possedute" checked>
+                </label>
+                <label>Da Acquistare:
+                    <input type="checkbox" value="da_acquistare" checked>
+                </label>
+                <input type="submit" name="cerca" value="Cerca">
+            </form>
+            <script>var utente = "";</script>
+            {% for moneta in possiede %}
+                <script>
+                    if (utente != "{{ moneta.utente.user.username }}") {
+                        document.write("</tr></table><br>");
+                        utente = "{{ moneta.utente.user.username }}";
+                        document.write("<a href='{% url 'utente:profilo' moneta.utente.user.username %}'>");
+                        document.write("<p style='background: gray;'><b>{{ moneta.utente.user.username | capfirst }}");
+                        document.write("</a>");
+                        document.write("<font style='padding-left: 80%;'>");
+                        if ("{{ moneta.utente.collezionista }}" == 'True') {
+                            document.write("Collezionista");
+                        }
+                        else {
+                            document.write("Venditore");
+                        }
+                        document.write("</font></b></p>");
+                        document.write("<table border='2'>");
+                        document.write("<tr>");
+                    }
+                </script>
+                <td>
+                    <a href="{% url 'utente:dettaglio_moneta' moneta.utente.user.username moneta.moneta.id %}">
+                        <img class="moneta catalogo non_posseduta" src="{% static moneta.moneta.foto %}" style="background: red; padding-bottom: 5px" width="100px">
+                    </a>
+                </td>
+                <td>{{ moneta.moneta.valore }}€</td>
+            {% endfor %}
+        {% endblock %}
+    </body>
+</html>

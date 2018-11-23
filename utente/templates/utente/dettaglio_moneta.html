@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% extends 'collezione/base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block titolo %}
+        Euros - {{ moneta.nazionalita }} {{ moneta.valore }}
+    {% endblock %}
+    {% block head %}
+        <title>Euros - {{ moneta.nazionalita }} {{ moneta.valore }}</title>
+    {% endblock %}
+</head>
+<body>
+
+    {% block content %}
+        {% load static %}
+        {% if possiede.posseduta %}
+            <img class="moneta dettaglio posseduta" src="{% static moneta.foto %}">
+        {% else %}
+            <img class="moneta dettaglio non_posseduta" src="{% static moneta.foto %}">
+        {% endif %}
+        <p><b>{{ moneta.valore }}€ {{ moneta.nazionalita }}</b></p>
+        {% if user_dettaglio.utente.collezionista %}
+            <form action="{% url 'scambio:propostaScambio' user_dettaglio.username %}" method="post">
+        {% else %}
+            <form action="{% url 'vendita:confermaAcquisto' user_dettaglio.username %}" method="post">
+        {% endif %}
+            {% csrf_token %}
+            <input type="hidden" value="{{ moneta.id }}" name="moneta_id">
+            {% if possiede_dettaglio.da_scambiare %}
+                <button>Proponi scambio</button>
+            {% else %}
+                {% if possiede_dettaglio.prezzo > 0 %}
+                    <input type="hidden" value="{{ possiede_dettaglio.prezzo }}" name="prezzo">
+                    Prezzo: {{ possiede_dettaglio.prezzo }}€
+                    <button>Acquista</button>
+                {% endif %}
+            {% endif %}
+        </form>
+    {% endblock %}
+
+</body>
+</html>

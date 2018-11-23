@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+{% extends 'collezione/base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {% block content %}
+        {% for scambio in scambi %}
+            {{ scambio.user.username }}
+        {% endfor %}
+    {% endblock %}
+</body>
+</html>

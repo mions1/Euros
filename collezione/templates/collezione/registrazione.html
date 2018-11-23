@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% extends 'collezione/base.html' %}
+<html lang="en">
+    {% block titolo %}
+        Euros - Registrazione
+    {% endblock %}
+    {% block head %}
+        <title>Euros - Registrazione</title>
+    {% endblock %}
+    {% block menu %}
+    {% endblock %}
+    {% block content %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <form action="{% url 'collezione:signupReg' %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Registrati">
+        </form>
+    {% endblock %}
+
+</html>

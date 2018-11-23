@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script>
+            function goBack() {
+                window.history.back()
+            }
+        </script>
+        {% load static %}
+        <meta charset="UTF-8">
+        <link href="{% static 'generale.css' %}" rel="stylesheet" type="text/css">
+        <div class="titolo">
+            <a href="{% url 'collezione:homepage' %}"> <H1> {% block titolo %} {% endblock %} </H1> </a>
+        </div>
+        {% block menu %}
+            <a href="{% url 'strumenti:principale' %}"><button>Strumenti</button></a>
+            <a href="{% url 'collezione:utenti' %}"><button>Utenti</button></a>
+            {% if user.utente.collezionista %}
+                <a href="{% url 'collezione:catalogo' %}">
+            {% else %}
+                <a href="{% url 'vendita:catalogo' %}">
+            {% endif %}
+            <button>Catalogo</button></a>
+            <a href="{% url 'collezione:profilo' %}"><button>Profilo</button></a>
+            <a href="{% url 'collezione:editprofile' %}"><button>Modifica Profilo</button></a>
+            <a href="{% url 'logout' %}"><button>Logout</button></a>
+        {% endblock %}
+        <br><br><hr>
+        {% block head %}
+
+        {% endblock %}
+    </head>
+    <body background="{% static 'collezione/background.jpg' %}">
+        {% block content %}
+
+        {% endblock %}
+        {% block indietro %}
+            <button onclick="goBack()">Indietro</button>
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,1804 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 10.5 (Ubuntu 10.5-1.pgdg18.04+1)
+-- Dumped by pg_dump version 10.5 (Ubuntu 10.5-1.pgdg18.04+1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: simone
+--
+
+CREATE TABLE public.auth_group (
+    id integer NOT NULL,
+    name character varying(80) NOT NULL
+);
+
+
+ALTER TABLE public.auth_group OWNER TO simone;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: simone
+--
+
+CREATE SEQUENCE public.auth_group_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO simone;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: simone
+--
+
+ALTER SEQUENCE public.auth_group_id_seq OWNED BY public.auth_group.id;
+
+
+--
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: simone
+--
+
+CREATE TABLE public.auth_group_permissions (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO simone;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: simone
+--
+
+CREATE SEQUENCE public.auth_group_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO simone;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: simone
+--
+
+ALTER SEQUENCE public.auth_group_permissions_id_seq OWNED BY public.auth_group_permissions.id;
+
+
+--
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: simone
+--
+
+CREATE TABLE public.auth_permission (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO simone;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: simone
+--
+
+CREATE SEQUENCE public.auth_permission_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO simone;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: simone
+--
+
+ALTER SEQUENCE public.auth_permission_id_seq OWNED BY public.auth_permission.id;
+
+
+--
+-- Name: auth_user; Type: TABLE; Schema: public; Owner: simone
+--
+
+CREATE TABLE public.auth_user (
+    id integer NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone,
+    is_superuser boolean NOT NULL,
+    username character varying(150) NOT NULL,
+    first_name character varying(30) NOT NULL,
+    last_name character varying(150) NOT NULL,
+    email character varying(254) NOT NULL,
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    date_joined timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.auth_user OWNER TO simone;
+
+--
+-- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: simone
+--
+
+CREATE TABLE public.auth_user_groups (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_groups OWNER TO simone;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: simone
+--
+
+CREATE SEQUENCE public.auth_user_groups_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_groups_id_seq OWNER TO simone;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: simone
+--
+
+ALTER SEQUENCE public.auth_user_groups_id_seq OWNED BY public.auth_user_groups.id;
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: simone
+--
+
+CREATE SEQUENCE public.auth_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_id_seq OWNER TO simone;
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: simone
+--
+
+ALTER SEQUENCE public.auth_user_id_seq OWNED BY public.auth_user.id;
+
+
+--
+-- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: simone
+--
+
+CREATE TABLE public.auth_user_user_permissions (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_user_permissions OWNER TO simone;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: simone
+--
+
+CREATE SEQUENCE public.auth_user_user_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_user_permissions_id_seq OWNER TO simone;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: simone
+--
+
+ALTER SEQUENCE public.auth_user_user_permissions_id_seq OWNED BY public.auth_user_user_permissions.id;
+
+
+--
+-- Name: collezione_acquisto; Type: TABLE; Schema: public; Owner: simone
+--
+
+CREATE TABLE public.collezione_acquisto (
+    id integer NOT NULL,
+    data date NOT NULL,
+    collezionista_id integer NOT NULL,
+    moneta_id integer NOT NULL,
+    venditore_id integer,
+    prezzo double precision NOT NULL,
+    "votoCollezionista" integer,
+    "votoVenditore" integer
+);
+
+
+ALTER TABLE public.collezione_acquisto OWNER TO simone;
+
+--
+-- Name: collezione_acquisto_id_seq; Type: SEQUENCE; Schema: public; Owner: simone
+--
+
+CREATE SEQUENCE public.collezione_acquisto_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.collezione_acquisto_id_seq OWNER TO simone;
+
+--
+-- Name: collezione_acquisto_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: simone
+--
+
+ALTER SEQUENCE public.collezione_acquisto_id_seq OWNED BY public.collezione_acquisto.id;
+
+
+--
+-- Name: collezione_messaggio; Type: TABLE; Schema: public; Owner: simone
+--
+
+CREATE TABLE public.collezione_messaggio (
+    id integer NOT NULL,
+    testo character varying(200),
+    data timestamp with time zone NOT NULL,
+    destinatario_id integer NOT NULL,
+    mittente_id integer NOT NULL,
+    letto boolean NOT NULL
+);
+
+
+ALTER TABLE public.collezione_messaggio OWNER TO simone;
+
+--
+-- Name: collezione_messaggio_id_seq; Type: SEQUENCE; Schema: public; Owner: simone
+--
+
+CREATE SEQUENCE public.collezione_messaggio_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.collezione_messaggio_id_seq OWNER TO simone;
+
+--
+-- Name: collezione_messaggio_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: simone
+--
+
+ALTER SEQUENCE public.collezione_messaggio_id_seq OWNED BY public.collezione_messaggio.id;
+
+
+--
+-- Name: collezione_moneta; Type: TABLE; Schema: public; Owner: simone
+--
+
+CREATE TABLE public.collezione_moneta (
+    id integer NOT NULL,
+    valore double precision NOT NULL,
+    nazionalita character varying(30) NOT NULL,
+    foto character varying(100)
+);
+
+
+ALTER TABLE public.collezione_moneta OWNER TO simone;
+
+--
+-- Name: collezione_moneta_id_seq; Type: SEQUENCE; Schema: public; Owner: simone
+--
+
+CREATE SEQUENCE public.collezione_moneta_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.collezione_moneta_id_seq OWNER TO simone;
+
+--
+-- Name: collezione_moneta_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: simone
+--
+
+ALTER SEQUENCE public.collezione_moneta_id_seq OWNED BY public.collezione_moneta.id;
+
+
+--
+-- Name: collezione_possiede; Type: TABLE; Schema: public; Owner: simone
+--
+
+CREATE TABLE public.collezione_possiede (
+    id integer NOT NULL,
+    posseduta boolean,
+    da_scambiare boolean,
+    da_acquistare boolean,
+    prezzo double precision,
+    moneta_id integer NOT NULL,
+    utente_id integer NOT NULL
+);
+
+
+ALTER TABLE public.collezione_possiede OWNER TO simone;
+
+--
+-- Name: collezione_possiede_id_seq; Type: SEQUENCE; Schema: public; Owner: simone
+--
+
+CREATE SEQUENCE public.collezione_possiede_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.collezione_possiede_id_seq OWNER TO simone;
+
+--
+-- Name: collezione_possiede_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: simone
+--
+
+ALTER SEQUENCE public.collezione_possiede_id_seq OWNED BY public.collezione_possiede.id;
+
+
+--
+-- Name: collezione_scambio; Type: TABLE; Schema: public; Owner: simone
+--
+
+CREATE TABLE public.collezione_scambio (
+    id integer NOT NULL,
+    data date NOT NULL,
+    "monetaControOfferta_id" integer,
+    "monetaRichiesta_id" integer NOT NULL,
+    offerente_id integer NOT NULL,
+    ricevente_id integer NOT NULL,
+    "confermaOfferente" boolean,
+    "confermaRicevente" boolean,
+    "votoOfferente" integer,
+    "votoRicevente" integer
+);
+
+
+ALTER TABLE public.collezione_scambio OWNER TO simone;
+
+--
+-- Name: collezione_scambio_id_seq; Type: SEQUENCE; Schema: public; Owner: simone
+--
+
+CREATE SEQUENCE public.collezione_scambio_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.collezione_scambio_id_seq OWNER TO simone;
+
+--
+-- Name: collezione_scambio_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: simone
+--
+
+ALTER SEQUENCE public.collezione_scambio_id_seq OWNED BY public.collezione_scambio.id;
+
+
+--
+-- Name: collezione_utente; Type: TABLE; Schema: public; Owner: simone
+--
+
+CREATE TABLE public.collezione_utente (
+    id integer NOT NULL,
+    data_nascita date NOT NULL,
+    iban character varying(27),
+    collezionista boolean NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE public.collezione_utente OWNER TO simone;
+
+--
+-- Name: collezione_utente_id_seq; Type: SEQUENCE; Schema: public; Owner: simone
+--
+
+CREATE SEQUENCE public.collezione_utente_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.collezione_utente_id_seq OWNER TO simone;
+
+--
+-- Name: collezione_utente_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: simone
+--
+
+ALTER SEQUENCE public.collezione_utente_id_seq OWNED BY public.collezione_utente.id;
+
+
+--
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: simone
+--
+
+CREATE TABLE public.django_admin_log (
+    id integer NOT NULL,
+    action_time timestamp with time zone NOT NULL,
+    object_id text,
+    object_repr character varying(200) NOT NULL,
+    action_flag smallint NOT NULL,
+    change_message text NOT NULL,
+    content_type_id integer,
+    user_id integer NOT NULL,
+    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
+);
+
+
+ALTER TABLE public.django_admin_log OWNER TO simone;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: simone
+--
+
+CREATE SEQUENCE public.django_admin_log_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_admin_log_id_seq OWNER TO simone;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: simone
+--
+
+ALTER SEQUENCE public.django_admin_log_id_seq OWNED BY public.django_admin_log.id;
+
+
+--
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: simone
+--
+
+CREATE TABLE public.django_content_type (
+    id integer NOT NULL,
+    app_label character varying(100) NOT NULL,
+    model character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.django_content_type OWNER TO simone;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: simone
+--
+
+CREATE SEQUENCE public.django_content_type_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_content_type_id_seq OWNER TO simone;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: simone
+--
+
+ALTER SEQUENCE public.django_content_type_id_seq OWNED BY public.django_content_type.id;
+
+
+--
+-- Name: django_migrations; Type: TABLE; Schema: public; Owner: simone
+--
+
+CREATE TABLE public.django_migrations (
+    id integer NOT NULL,
+    app character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    applied timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_migrations OWNER TO simone;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: simone
+--
+
+CREATE SEQUENCE public.django_migrations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_migrations_id_seq OWNER TO simone;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: simone
+--
+
+ALTER SEQUENCE public.django_migrations_id_seq OWNED BY public.django_migrations.id;
+
+
+--
+-- Name: django_session; Type: TABLE; Schema: public; Owner: simone
+--
+
+CREATE TABLE public.django_session (
+    session_key character varying(40) NOT NULL,
+    session_data text NOT NULL,
+    expire_date timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_session OWNER TO simone;
+
+--
+-- Name: auth_group id; Type: DEFAULT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.auth_group ALTER COLUMN id SET DEFAULT nextval('public.auth_group_id_seq'::regclass);
+
+
+--
+-- Name: auth_group_permissions id; Type: DEFAULT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- Name: auth_permission id; Type: DEFAULT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.auth_permission ALTER COLUMN id SET DEFAULT nextval('public.auth_permission_id_seq'::regclass);
+
+
+--
+-- Name: auth_user id; Type: DEFAULT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.auth_user ALTER COLUMN id SET DEFAULT nextval('public.auth_user_id_seq'::regclass);
+
+
+--
+-- Name: auth_user_groups id; Type: DEFAULT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.auth_user_groups ALTER COLUMN id SET DEFAULT nextval('public.auth_user_groups_id_seq'::regclass);
+
+
+--
+-- Name: auth_user_user_permissions id; Type: DEFAULT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_user_user_permissions_id_seq'::regclass);
+
+
+--
+-- Name: collezione_acquisto id; Type: DEFAULT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_acquisto ALTER COLUMN id SET DEFAULT nextval('public.collezione_acquisto_id_seq'::regclass);
+
+
+--
+-- Name: collezione_messaggio id; Type: DEFAULT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_messaggio ALTER COLUMN id SET DEFAULT nextval('public.collezione_messaggio_id_seq'::regclass);
+
+
+--
+-- Name: collezione_moneta id; Type: DEFAULT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_moneta ALTER COLUMN id SET DEFAULT nextval('public.collezione_moneta_id_seq'::regclass);
+
+
+--
+-- Name: collezione_possiede id; Type: DEFAULT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_possiede ALTER COLUMN id SET DEFAULT nextval('public.collezione_possiede_id_seq'::regclass);
+
+
+--
+-- Name: collezione_scambio id; Type: DEFAULT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_scambio ALTER COLUMN id SET DEFAULT nextval('public.collezione_scambio_id_seq'::regclass);
+
+
+--
+-- Name: collezione_utente id; Type: DEFAULT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_utente ALTER COLUMN id SET DEFAULT nextval('public.collezione_utente_id_seq'::regclass);
+
+
+--
+-- Name: django_admin_log id; Type: DEFAULT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.django_admin_log ALTER COLUMN id SET DEFAULT nextval('public.django_admin_log_id_seq'::regclass);
+
+
+--
+-- Name: django_content_type id; Type: DEFAULT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.django_content_type ALTER COLUMN id SET DEFAULT nextval('public.django_content_type_id_seq'::regclass);
+
+
+--
+-- Name: django_migrations id; Type: DEFAULT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.django_migrations ALTER COLUMN id SET DEFAULT nextval('public.django_migrations_id_seq'::regclass);
+
+
+--
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: simone
+--
+
+COPY public.auth_group (id, name) FROM stdin;
+1	collezionisti
+2	venditori
+\.
+
+
+--
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: simone
+--
+
+COPY public.auth_group_permissions (id, group_id, permission_id) FROM stdin;
+1	1	1
+2	1	2
+3	1	4
+4	1	5
+5	1	6
+6	1	7
+7	1	8
+8	1	12
+9	1	13
+10	1	14
+11	1	15
+12	1	16
+13	1	18
+14	1	19
+15	1	20
+16	1	21
+17	1	22
+18	1	23
+19	1	24
+20	1	37
+21	1	38
+22	1	39
+23	1	40
+24	1	48
+25	2	1
+26	2	2
+27	2	3
+28	2	4
+29	2	5
+30	2	6
+31	2	7
+32	2	8
+33	2	12
+34	2	16
+35	2	18
+36	2	19
+37	2	20
+38	2	21
+39	2	22
+40	2	23
+41	2	24
+42	2	36
+43	2	37
+44	2	38
+45	2	40
+\.
+
+
+--
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: simone
+--
+
+COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
+1	Can add acquisto	1	add_acquisto
+2	Can change acquisto	1	change_acquisto
+3	Can delete acquisto	1	delete_acquisto
+4	Can view acquisto	1	view_acquisto
+5	Can add messaggio	2	add_messaggio
+6	Can change messaggio	2	change_messaggio
+7	Can delete messaggio	2	delete_messaggio
+8	Can view messaggio	2	view_messaggio
+9	Can add moneta	3	add_moneta
+10	Can change moneta	3	change_moneta
+11	Can delete moneta	3	delete_moneta
+12	Can view moneta	3	view_moneta
+13	Can add scambio	4	add_scambio
+14	Can change scambio	4	change_scambio
+15	Can delete scambio	4	delete_scambio
+16	Can view scambio	4	view_scambio
+17	Can add utente	5	add_utente
+18	Can change utente	5	change_utente
+19	Can delete utente	5	delete_utente
+20	Can view utente	5	view_utente
+21	Can add possiede	6	add_possiede
+22	Can change possiede	6	change_possiede
+23	Can delete possiede	6	delete_possiede
+24	Can view possiede	6	view_possiede
+25	Can add log entry	7	add_logentry
+26	Can change log entry	7	change_logentry
+27	Can delete log entry	7	delete_logentry
+28	Can view log entry	7	view_logentry
+29	Can add permission	8	add_permission
+30	Can change permission	8	change_permission
+31	Can delete permission	8	delete_permission
+32	Can view permission	8	view_permission
+33	Can add group	9	add_group
+34	Can change group	9	change_group
+35	Can delete group	9	delete_group
+36	Can view group	9	view_group
+37	Can add user	10	add_user
+38	Can change user	10	change_user
+39	Can delete user	10	delete_user
+40	Can view user	10	view_user
+41	Can add content type	11	add_contenttype
+42	Can change content type	11	change_contenttype
+43	Can delete content type	11	delete_contenttype
+44	Can view content type	11	view_contenttype
+45	Can add session	12	add_session
+46	Can change session	12	change_session
+47	Can delete session	12	delete_session
+48	Can view session	12	view_session
+\.
+
+
+--
+-- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: simone
+--
+
+COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
+2	pbkdf2_sha256$120000$JCnE2XvjxKyN$cCXdY6VaF9ryobzbNLtqTNGbs8QW6S5F8fPom4h9qUQ=	2018-11-23 14:19:51.242185+01	t	simone				t	t	2018-11-23 14:19:39.495374+01
+5	pbkdf2_sha256$120000$Dfo60bc8u1ux$7/8ANPojLVyKO46HQ9Z86Xyc4jqCUfGEL+jHfkMyNqE=	2018-11-23 14:59:26.563481+01	f	mar	Marco	Aprea	mar@	f	t	2018-11-23 14:26:31.521136+01
+4	pbkdf2_sha256$120000$cZdTi8keB0hF$xFNORGTuKOiG7OC0ItviBJXd0GPtBc619husBy7Ccb0=	2018-11-23 14:59:41.76521+01	f	lor	Loredana	Ferrante	lor@	f	t	2018-11-23 14:26:07.457446+01
+3	pbkdf2_sha256$120000$NYJMzVmPLySP$yZ4T0D2SR07rEsklsECsKlcrbCGw/AqpdPD/RB7Rn0k=	2018-11-23 15:01:47.002632+01	f	sim	Simone	Mione	sim@	f	t	2018-11-23 14:25:46.532911+01
+\.
+
+
+--
+-- Data for Name: auth_user_groups; Type: TABLE DATA; Schema: public; Owner: simone
+--
+
+COPY public.auth_user_groups (id, user_id, group_id) FROM stdin;
+1	3	1
+2	4	1
+3	5	1
+\.
+
+
+--
+-- Data for Name: auth_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: simone
+--
+
+COPY public.auth_user_user_permissions (id, user_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: collezione_acquisto; Type: TABLE DATA; Schema: public; Owner: simone
+--
+
+COPY public.collezione_acquisto (id, data, collezionista_id, moneta_id, venditore_id, prezzo, "votoCollezionista", "votoVenditore") FROM stdin;
+1	2018-11-23	1	6	3	3.10000000000000009	\N	\N
+\.
+
+
+--
+-- Data for Name: collezione_messaggio; Type: TABLE DATA; Schema: public; Owner: simone
+--
+
+COPY public.collezione_messaggio (id, testo, data, destinatario_id, mittente_id, letto) FROM stdin;
+1	ciao	2018-11-23 14:26:50.056633+01	2	1	f
+2	ciao	2018-11-23 14:27:05.869647+01	3	1	t
+3	ciaoo, come va? Ho in vendita la moneta da 1€ dell'Austria, dacci un occhio	2018-11-23 14:49:01.175626+01	1	3	f
+4	a presto	2018-11-23 14:49:15.949277+01	1	3	f
+\.
+
+
+--
+-- Data for Name: collezione_moneta; Type: TABLE DATA; Schema: public; Owner: simone
+--
+
+COPY public.collezione_moneta (id, valore, nazionalita, foto) FROM stdin;
+1	0.0100000000000000002	Austria	collezione/img/Austria/0,01.jpg
+2	0.0200000000000000004	Austria	collezione/img/Austria/0,02.jpg
+3	0.100000000000000006	Austria	collezione/img/Austria/0,1.jpg
+4	0.200000000000000011	Austria	collezione/img/Austria/0,2.jpg
+5	0.5	Austria	collezione/img/Austria/0,5.jpg
+6	1	Austria	collezione/img/Austria/1,0.jpg
+7	2	Austria	collezione/img/Austria/2,0.jpg
+8	0.0100000000000000002	Belgio	collezione/img/Belgio/0,01.jpg
+9	0.0200000000000000004	Belgio	collezione/img/Belgio/0,02.jpg
+10	0.100000000000000006	Belgio	collezione/img/Belgio/0,1.jpg
+11	0.200000000000000011	Belgio	collezione/img/Belgio/0,2.jpg
+12	0.5	Belgio	collezione/img/Belgio/0,5.jpg
+13	1	Belgio	collezione/img/Belgio/1,0.jpg
+14	2	Belgio	collezione/img/Belgio/2,0.jpg
+15	0.0100000000000000002	Cipro	collezione/img/Cipro/0,01.jpg
+16	0.0200000000000000004	Cipro	collezione/img/Cipro/0,02.jpg
+17	0.100000000000000006	Cipro	collezione/img/Cipro/0,1.jpg
+18	0.200000000000000011	Cipro	collezione/img/Cipro/0,2.jpg
+19	0.5	Cipro	collezione/img/Cipro/0,5.jpg
+20	1	Cipro	collezione/img/Cipro/1,0.jpg
+21	2	Cipro	collezione/img/Cipro/2,0.jpg
+22	0.0100000000000000002	Estonia	collezione/img/Estonia/0,01.jpg
+23	0.0200000000000000004	Estonia	collezione/img/Estonia/0,02.jpg
+24	0.100000000000000006	Estonia	collezione/img/Estonia/0,1.jpg
+25	0.200000000000000011	Estonia	collezione/img/Estonia/0,2.jpg
+26	0.5	Estonia	collezione/img/Estonia/0,5.jpg
+27	1	Estonia	collezione/img/Estonia/1,0.jpg
+28	2	Estonia	collezione/img/Estonia/2,0.jpg
+29	0.0100000000000000002	Finlandia	collezione/img/Finlandia/0,01.jpg
+30	0.0200000000000000004	Finlandia	collezione/img/Finlandia/0,02.jpg
+31	0.100000000000000006	Finlandia	collezione/img/Finlandia/0,1.jpg
+32	0.200000000000000011	Finlandia	collezione/img/Finlandia/0,2.jpg
+33	0.5	Finlandia	collezione/img/Finlandia/0,5.jpg
+34	1	Finlandia	collezione/img/Finlandia/1,0.jpg
+35	2	Finlandia	collezione/img/Finlandia/2,0.jpg
+36	0.0100000000000000002	Francia	collezione/img/Francia/0,01.jpg
+37	0.0200000000000000004	Francia	collezione/img/Francia/0,02.jpg
+38	0.100000000000000006	Francia	collezione/img/Francia/0,1.jpg
+39	0.200000000000000011	Francia	collezione/img/Francia/0,2.jpg
+40	0.5	Francia	collezione/img/Francia/0,5.jpg
+41	1	Francia	collezione/img/Francia/1,0.jpg
+42	2	Francia	collezione/img/Francia/2,0.jpg
+43	0.0100000000000000002	Germania	collezione/img/Germania/0,01.jpg
+44	0.0200000000000000004	Germania	collezione/img/Germania/0,02.jpg
+45	0.100000000000000006	Germania	collezione/img/Germania/0,1.jpg
+46	0.200000000000000011	Germania	collezione/img/Germania/0,2.jpg
+47	0.5	Germania	collezione/img/Germania/0,5.jpg
+48	1	Germania	collezione/img/Germania/1,0.jpg
+49	2	Germania	collezione/img/Germania/2,0.jpg
+50	0.0100000000000000002	Grecia	collezione/img/Grecia/0,01.jpg
+51	0.0200000000000000004	Grecia	collezione/img/Grecia/0,02.jpg
+52	0.100000000000000006	Grecia	collezione/img/Grecia/0,1.jpg
+53	0.200000000000000011	Grecia	collezione/img/Grecia/0,2.jpg
+54	0.5	Grecia	collezione/img/Grecia/0,5.jpg
+55	1	Grecia	collezione/img/Grecia/1,0.jpg
+56	2	Grecia	collezione/img/Grecia/2,0.jpg
+57	0.0100000000000000002	Irlanda	collezione/img/Irlanda/0,01.jpg
+58	0.0200000000000000004	Irlanda	collezione/img/Irlanda/0,02.jpg
+59	0.100000000000000006	Irlanda	collezione/img/Irlanda/0,1.jpg
+60	0.200000000000000011	Irlanda	collezione/img/Irlanda/0,2.jpg
+61	0.5	Irlanda	collezione/img/Irlanda/0,5.jpg
+62	1	Irlanda	collezione/img/Irlanda/1,0.jpg
+63	2	Irlanda	collezione/img/Irlanda/2,0.jpg
+64	0.0100000000000000002	Italia	collezione/img/Italia/0,01.jpg
+65	0.0200000000000000004	Italia	collezione/img/Italia/0,02.jpg
+66	0.100000000000000006	Italia	collezione/img/Italia/0,1.jpg
+67	0.200000000000000011	Italia	collezione/img/Italia/0,2.jpg
+68	0.5	Italia	collezione/img/Italia/0,5.jpg
+69	1	Italia	collezione/img/Italia/1,0.jpg
+70	2	Italia	collezione/img/Italia/2,0.jpg
+71	0.0100000000000000002	Lettonia	collezione/img/Lettonia/0,01.jpg
+72	0.0200000000000000004	Lettonia	collezione/img/Lettonia/0,02.jpg
+73	0.100000000000000006	Lettonia	collezione/img/Lettonia/0,1.jpg
+74	0.200000000000000011	Lettonia	collezione/img/Lettonia/0,2.jpg
+75	0.5	Lettonia	collezione/img/Lettonia/0,5.jpg
+76	1	Lettonia	collezione/img/Lettonia/1,0.jpg
+77	2	Lettonia	collezione/img/Lettonia/2,0.jpg
+78	0.0100000000000000002	Lituania	collezione/img/Lituania/0,01.jpg
+79	0.0200000000000000004	Lituania	collezione/img/Lituania/0,02.jpg
+80	0.100000000000000006	Lituania	collezione/img/Lituania/0,1.jpg
+81	0.200000000000000011	Lituania	collezione/img/Lituania/0,2.jpg
+82	0.5	Lituania	collezione/img/Lituania/0,5.jpg
+83	1	Lituania	collezione/img/Lituania/1,0.jpg
+84	2	Lituania	collezione/img/Lituania/2,0.jpg
+85	0.0100000000000000002	Lussemburgo	collezione/img/Lussemburgo/0,01.jpg
+86	0.0200000000000000004	Lussemburgo	collezione/img/Lussemburgo/0,02.jpg
+87	0.100000000000000006	Lussemburgo	collezione/img/Lussemburgo/0,1.jpg
+88	0.200000000000000011	Lussemburgo	collezione/img/Lussemburgo/0,2.jpg
+89	0.5	Lussemburgo	collezione/img/Lussemburgo/0,5.jpg
+90	1	Lussemburgo	collezione/img/Lussemburgo/1,0.jpg
+91	2	Lussemburgo	collezione/img/Lussemburgo/2,0.jpg
+92	0.0100000000000000002	Malta	collezione/img/Malta/0,01.jpg
+93	0.0200000000000000004	Malta	collezione/img/Malta/0,02.jpg
+94	0.100000000000000006	Malta	collezione/img/Malta/0,1.jpg
+95	0.200000000000000011	Malta	collezione/img/Malta/0,2.jpg
+96	0.5	Malta	collezione/img/Malta/0,5.jpg
+97	1	Malta	collezione/img/Malta/1,0.jpg
+98	2	Malta	collezione/img/Malta/2,0.jpg
+99	0.0100000000000000002	Olanda	collezione/img/Olanda/0,01.jpg
+100	0.0200000000000000004	Olanda	collezione/img/Olanda/0,02.jpg
+101	0.100000000000000006	Olanda	collezione/img/Olanda/0,1.jpg
+102	0.200000000000000011	Olanda	collezione/img/Olanda/0,2.jpg
+103	0.5	Olanda	collezione/img/Olanda/0,5.jpg
+104	1	Olanda	collezione/img/Olanda/1,0.jpg
+105	2	Olanda	collezione/img/Olanda/2,0.jpg
+106	0.0100000000000000002	Portogallo	collezione/img/Portogallo/0,01.jpg
+107	0.0200000000000000004	Portogallo	collezione/img/Portogallo/0,02.jpg
+108	0.100000000000000006	Portogallo	collezione/img/Portogallo/0,1.jpg
+109	0.200000000000000011	Portogallo	collezione/img/Portogallo/0,2.jpg
+110	0.5	Portogallo	collezione/img/Portogallo/0,5.jpg
+111	1	Portogallo	collezione/img/Portogallo/1,0.jpg
+112	2	Portogallo	collezione/img/Portogallo/2,0.jpg
+113	0.0100000000000000002	Slovacchia	collezione/img/Slovacchia/0,01.jpg
+114	0.0200000000000000004	Slovacchia	collezione/img/Slovacchia/0,02.jpg
+115	0.100000000000000006	Slovacchia	collezione/img/Slovacchia/0,1.jpg
+116	0.200000000000000011	Slovacchia	collezione/img/Slovacchia/0,2.jpg
+117	0.5	Slovacchia	collezione/img/Slovacchia/0,5.jpg
+118	1	Slovacchia	collezione/img/Slovacchia/1,0.jpg
+119	2	Slovacchia	collezione/img/Slovacchia/2,0.jpg
+120	0.0100000000000000002	Slovenia	collezione/img/Slovenia/0,01.jpg
+121	0.0200000000000000004	Slovenia	collezione/img/Slovenia/0,02.jpg
+122	0.100000000000000006	Slovenia	collezione/img/Slovenia/0,1.jpg
+123	0.200000000000000011	Slovenia	collezione/img/Slovenia/0,2.jpg
+124	0.5	Slovenia	collezione/img/Slovenia/0,5.jpg
+125	1	Slovenia	collezione/img/Slovenia/1,0.jpg
+126	2	Slovenia	collezione/img/Slovenia/2,0.jpg
+127	0.0100000000000000002	Spagna	collezione/img/Spagna/0,01.jpg
+128	0.0200000000000000004	Spagna	collezione/img/Spagna/0,02.jpg
+129	0.100000000000000006	Spagna	collezione/img/Spagna/0,1.jpg
+130	0.200000000000000011	Spagna	collezione/img/Spagna/0,2.jpg
+131	0.5	Spagna	collezione/img/Spagna/0,5.jpg
+132	1	Spagna	collezione/img/Spagna/1,0.jpg
+133	2	Spagna	collezione/img/Spagna/2,0.jpg
+\.
+
+
+--
+-- Data for Name: collezione_possiede; Type: TABLE DATA; Schema: public; Owner: simone
+--
+
+COPY public.collezione_possiede (id, posseduta, da_scambiare, da_acquistare, prezzo, moneta_id, utente_id) FROM stdin;
+1	t	f	f	\N	1	1
+2	t	f	f	\N	2	1
+3	f	f	t	\N	3	1
+4	t	t	f	\N	4	1
+5	f	f	f	0	1	2
+6	f	f	f	0	4	2
+7	t	t	f	\N	3	2
+8	t	f	f	3.10000000000000009	6	3
+9	t	f	f	\N	6	1
+\.
+
+
+--
+-- Data for Name: collezione_scambio; Type: TABLE DATA; Schema: public; Owner: simone
+--
+
+COPY public.collezione_scambio (id, data, "monetaControOfferta_id", "monetaRichiesta_id", offerente_id, ricevente_id, "confermaOfferente", "confermaRicevente", "votoOfferente", "votoRicevente") FROM stdin;
+2	2018-11-23	\N	4	2	1	f	f	\N	\N
+1	2018-11-23	1	3	1	2	t	t	3	\N
+\.
+
+
+--
+-- Data for Name: collezione_utente; Type: TABLE DATA; Schema: public; Owner: simone
+--
+
+COPY public.collezione_utente (id, data_nascita, iban, collezionista, user_id) FROM stdin;
+1	1995-10-05	\N	t	3
+2	1993-01-08	\N	t	4
+3	1995-06-03	IT33PO	f	5
+\.
+
+
+--
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: simone
+--
+
+COPY public.django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
+1	2018-11-23 14:21:42.261363+01	1	collezionisti	1	[{"added": {}}]	9	2
+2	2018-11-23 14:22:32.246979+01	2	venditori	1	[{"added": {}}]	9	2
+\.
+
+
+--
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: simone
+--
+
+COPY public.django_content_type (id, app_label, model) FROM stdin;
+1	collezione	acquisto
+2	collezione	messaggio
+3	collezione	moneta
+4	collezione	scambio
+5	collezione	utente
+6	collezione	possiede
+7	admin	logentry
+8	auth	permission
+9	auth	group
+10	auth	user
+11	contenttypes	contenttype
+12	sessions	session
+\.
+
+
+--
+-- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: simone
+--
+
+COPY public.django_migrations (id, app, name, applied) FROM stdin;
+1	contenttypes	0001_initial	2018-11-23 14:17:29.952068+01
+2	auth	0001_initial	2018-11-23 14:17:30.963861+01
+3	admin	0001_initial	2018-11-23 14:17:31.186899+01
+4	admin	0002_logentry_remove_auto_add	2018-11-23 14:17:31.207102+01
+5	admin	0003_logentry_add_action_flag_choices	2018-11-23 14:17:31.229188+01
+6	contenttypes	0002_remove_content_type_name	2018-11-23 14:17:31.275049+01
+7	auth	0002_alter_permission_name_max_length	2018-11-23 14:17:31.296723+01
+8	auth	0003_alter_user_email_max_length	2018-11-23 14:17:31.330117+01
+9	auth	0004_alter_user_username_opts	2018-11-23 14:17:31.350957+01
+10	auth	0005_alter_user_last_login_null	2018-11-23 14:17:31.385682+01
+11	auth	0006_require_contenttypes_0002	2018-11-23 14:17:31.396769+01
+12	auth	0007_alter_validators_add_error_messages	2018-11-23 14:17:31.417788+01
+13	auth	0008_alter_user_username_max_length	2018-11-23 14:17:31.496852+01
+14	auth	0009_alter_user_last_name_max_length	2018-11-23 14:17:31.530008+01
+15	collezione	0001_initial	2018-11-23 14:17:33.200779+01
+16	collezione	0002_auto_20181016_0931	2018-11-23 14:17:33.310928+01
+17	collezione	0003_auto_20181016_0932	2018-11-23 14:17:33.366358+01
+18	collezione	0004_auto_20181016_1247	2018-11-23 14:17:33.633413+01
+19	collezione	0005_auto_20181016_1248	2018-11-23 14:17:33.677751+01
+20	collezione	0006_auto_20181017_1324	2018-11-23 14:17:33.811015+01
+21	collezione	0007_auto_20181018_1035	2018-11-23 14:17:33.83452+01
+22	collezione	0008_messaggio_letto	2018-11-23 14:17:33.988967+01
+23	collezione	0009_auto_20181023_0936	2018-11-23 14:17:34.355723+01
+24	collezione	0010_auto_20181023_1522	2018-11-23 14:17:34.432955+01
+25	collezione	0011_auto_20181023_1615	2018-11-23 14:17:34.510623+01
+26	collezione	0012_auto_20181025_1233	2018-11-23 14:17:35.512606+01
+27	collezione	0013_auto_20181025_1243	2018-11-23 14:17:35.934216+01
+28	collezione	0014_auto_20181025_1249	2018-11-23 14:17:35.989358+01
+29	collezione	0015_auto_20181025_1249	2018-11-23 14:17:36.055928+01
+30	collezione	0016_auto_20181025_1428	2018-11-23 14:17:36.402038+01
+31	collezione	0017_auto_20181025_2152	2018-11-23 14:17:36.912449+01
+32	collezione	0018_auto_20181030_1812	2018-11-23 14:17:37.645186+01
+33	collezione	0019_auto_20181030_1815	2018-11-23 14:17:38.133868+01
+34	collezione	0020_auto_20181030_1816	2018-11-23 14:17:38.177315+01
+35	collezione	0021_auto_20181030_1817	2018-11-23 14:17:38.221848+01
+36	collezione	0022_auto_20181030_2030	2018-11-23 14:17:38.356116+01
+37	collezione	0023_auto_20181102_1526	2018-11-23 14:17:38.567167+01
+38	collezione	0024_auto_20181102_1611	2018-11-23 14:17:38.610492+01
+39	collezione	0025_remove_utente_affidabilita	2018-11-23 14:17:38.654958+01
+40	sessions	0001_initial	2018-11-23 14:17:38.843931+01
+\.
+
+
+--
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: simone
+--
+
+COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
+\.
+
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: simone
+--
+
+SELECT pg_catalog.setval('public.auth_group_id_seq', 2, true);
+
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: simone
+--
+
+SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 45, true);
+
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: simone
+--
+
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 48, true);
+
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: simone
+--
+
+SELECT pg_catalog.setval('public.auth_user_groups_id_seq', 3, true);
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: simone
+--
+
+SELECT pg_catalog.setval('public.auth_user_id_seq', 5, true);
+
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: simone
+--
+
+SELECT pg_catalog.setval('public.auth_user_user_permissions_id_seq', 1, false);
+
+
+--
+-- Name: collezione_acquisto_id_seq; Type: SEQUENCE SET; Schema: public; Owner: simone
+--
+
+SELECT pg_catalog.setval('public.collezione_acquisto_id_seq', 1, true);
+
+
+--
+-- Name: collezione_messaggio_id_seq; Type: SEQUENCE SET; Schema: public; Owner: simone
+--
+
+SELECT pg_catalog.setval('public.collezione_messaggio_id_seq', 4, true);
+
+
+--
+-- Name: collezione_moneta_id_seq; Type: SEQUENCE SET; Schema: public; Owner: simone
+--
+
+SELECT pg_catalog.setval('public.collezione_moneta_id_seq', 134, true);
+
+
+--
+-- Name: collezione_possiede_id_seq; Type: SEQUENCE SET; Schema: public; Owner: simone
+--
+
+SELECT pg_catalog.setval('public.collezione_possiede_id_seq', 9, true);
+
+
+--
+-- Name: collezione_scambio_id_seq; Type: SEQUENCE SET; Schema: public; Owner: simone
+--
+
+SELECT pg_catalog.setval('public.collezione_scambio_id_seq', 2, true);
+
+
+--
+-- Name: collezione_utente_id_seq; Type: SEQUENCE SET; Schema: public; Owner: simone
+--
+
+SELECT pg_catalog.setval('public.collezione_utente_id_seq', 3, true);
+
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: simone
+--
+
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 2, true);
+
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: simone
+--
+
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 12, true);
+
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: simone
+--
+
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 40, true);
+
+
+--
+-- Name: auth_group auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_permission_id_0cd325b0_uniq; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_permission_id_0cd325b0_uniq UNIQUE (group_id, permission_id);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_codename_01ab375a_uniq; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_codename_01ab375a_uniq UNIQUE (content_type_id, codename);
+
+
+--
+-- Name: auth_permission auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups auth_user_groups_user_id_group_id_94350c0c_uniq; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_group_id_94350c0c_uniq UNIQUE (user_id, group_id);
+
+
+--
+-- Name: auth_user auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_permission_id_14a6b632_uniq; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_permission_id_14a6b632_uniq UNIQUE (user_id, permission_id);
+
+
+--
+-- Name: auth_user auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_username_key UNIQUE (username);
+
+
+--
+-- Name: collezione_acquisto collezione_acquisto_pkey; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_acquisto
+    ADD CONSTRAINT collezione_acquisto_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: collezione_messaggio collezione_messaggio_pkey; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_messaggio
+    ADD CONSTRAINT collezione_messaggio_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: collezione_moneta collezione_moneta_pkey; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_moneta
+    ADD CONSTRAINT collezione_moneta_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: collezione_moneta collezione_moneta_valore_nazionalita_c21e7f1f_uniq; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_moneta
+    ADD CONSTRAINT collezione_moneta_valore_nazionalita_c21e7f1f_uniq UNIQUE (valore, nazionalita);
+
+
+--
+-- Name: collezione_possiede collezione_possiede_pkey; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_possiede
+    ADD CONSTRAINT collezione_possiede_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: collezione_possiede collezione_possiede_utente_id_moneta_id_f6ae9b34_uniq; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_possiede
+    ADD CONSTRAINT collezione_possiede_utente_id_moneta_id_f6ae9b34_uniq UNIQUE (utente_id, moneta_id);
+
+
+--
+-- Name: collezione_scambio collezione_scambio_pkey; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_scambio
+    ADD CONSTRAINT collezione_scambio_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: collezione_utente collezione_utente_pkey; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_utente
+    ADD CONSTRAINT collezione_utente_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: collezione_utente collezione_utente_user_id_id_key; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_utente
+    ADD CONSTRAINT collezione_utente_user_id_id_key UNIQUE (user_id);
+
+
+--
+-- Name: django_admin_log django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_content_type django_content_type_app_label_model_76bd3d3b_uniq; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_app_label_model_76bd3d3b_uniq UNIQUE (app_label, model);
+
+
+--
+-- Name: django_content_type django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_migrations django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.django_migrations
+    ADD CONSTRAINT django_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_session django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: simone
+--
+
+CREATE INDEX auth_group_name_a6ea08ec_like ON public.auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions_group_id_b120cbf9; Type: INDEX; Schema: public; Owner: simone
+--
+
+CREATE INDEX auth_group_permissions_group_id_b120cbf9 ON public.auth_group_permissions USING btree (group_id);
+
+
+--
+-- Name: auth_group_permissions_permission_id_84c5c92e; Type: INDEX; Schema: public; Owner: simone
+--
+
+CREATE INDEX auth_group_permissions_permission_id_84c5c92e ON public.auth_group_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_permission_content_type_id_2f476e4b; Type: INDEX; Schema: public; Owner: simone
+--
+
+CREATE INDEX auth_permission_content_type_id_2f476e4b ON public.auth_permission USING btree (content_type_id);
+
+
+--
+-- Name: auth_user_groups_group_id_97559544; Type: INDEX; Schema: public; Owner: simone
+--
+
+CREATE INDEX auth_user_groups_group_id_97559544 ON public.auth_user_groups USING btree (group_id);
+
+
+--
+-- Name: auth_user_groups_user_id_6a12ed8b; Type: INDEX; Schema: public; Owner: simone
+--
+
+CREATE INDEX auth_user_groups_user_id_6a12ed8b ON public.auth_user_groups USING btree (user_id);
+
+
+--
+-- Name: auth_user_user_permissions_permission_id_1fbb5f2c; Type: INDEX; Schema: public; Owner: simone
+--
+
+CREATE INDEX auth_user_user_permissions_permission_id_1fbb5f2c ON public.auth_user_user_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_user_user_permissions_user_id_a95ead1b; Type: INDEX; Schema: public; Owner: simone
+--
+
+CREATE INDEX auth_user_user_permissions_user_id_a95ead1b ON public.auth_user_user_permissions USING btree (user_id);
+
+
+--
+-- Name: auth_user_username_6821ab7c_like; Type: INDEX; Schema: public; Owner: simone
+--
+
+CREATE INDEX auth_user_username_6821ab7c_like ON public.auth_user USING btree (username varchar_pattern_ops);
+
+
+--
+-- Name: collezione_acquisto_collezionista_id_58edc285; Type: INDEX; Schema: public; Owner: simone
+--
+
+CREATE INDEX collezione_acquisto_collezionista_id_58edc285 ON public.collezione_acquisto USING btree (collezionista_id);
+
+
+--
+-- Name: collezione_acquisto_moneta_id_8e5edcca; Type: INDEX; Schema: public; Owner: simone
+--
+
+CREATE INDEX collezione_acquisto_moneta_id_8e5edcca ON public.collezione_acquisto USING btree (moneta_id);
+
+
+--
+-- Name: collezione_acquisto_venditore_id_86594ca5; Type: INDEX; Schema: public; Owner: simone
+--
+
+CREATE INDEX collezione_acquisto_venditore_id_86594ca5 ON public.collezione_acquisto USING btree (venditore_id);
+
+
+--
+-- Name: collezione_messaggio_destinatario_id_6527a858; Type: INDEX; Schema: public; Owner: simone
+--
+
+CREATE INDEX collezione_messaggio_destinatario_id_6527a858 ON public.collezione_messaggio USING btree (destinatario_id);
+
+
+--
+-- Name: collezione_messaggio_mittente_id_83d354e5; Type: INDEX; Schema: public; Owner: simone
+--
+
+CREATE INDEX collezione_messaggio_mittente_id_83d354e5 ON public.collezione_messaggio USING btree (mittente_id);
+
+
+--
+-- Name: collezione_possiede_moneta_id_ebbbc99c; Type: INDEX; Schema: public; Owner: simone
+--
+
+CREATE INDEX collezione_possiede_moneta_id_ebbbc99c ON public.collezione_possiede USING btree (moneta_id);
+
+
+--
+-- Name: collezione_possiede_utente_id_76d08f3d; Type: INDEX; Schema: public; Owner: simone
+--
+
+CREATE INDEX collezione_possiede_utente_id_76d08f3d ON public.collezione_possiede USING btree (utente_id);
+
+
+--
+-- Name: collezione_scambio_monetaControOfferta_id_395c051c; Type: INDEX; Schema: public; Owner: simone
+--
+
+CREATE INDEX "collezione_scambio_monetaControOfferta_id_395c051c" ON public.collezione_scambio USING btree ("monetaControOfferta_id");
+
+
+--
+-- Name: collezione_scambio_monetaRichiesta_id_ecdc9345; Type: INDEX; Schema: public; Owner: simone
+--
+
+CREATE INDEX "collezione_scambio_monetaRichiesta_id_ecdc9345" ON public.collezione_scambio USING btree ("monetaRichiesta_id");
+
+
+--
+-- Name: collezione_scambio_offerente_id_b10d7ed9; Type: INDEX; Schema: public; Owner: simone
+--
+
+CREATE INDEX collezione_scambio_offerente_id_b10d7ed9 ON public.collezione_scambio USING btree (offerente_id);
+
+
+--
+-- Name: collezione_scambio_ricevente_id_835a11e0; Type: INDEX; Schema: public; Owner: simone
+--
+
+CREATE INDEX collezione_scambio_ricevente_id_835a11e0 ON public.collezione_scambio USING btree (ricevente_id);
+
+
+--
+-- Name: django_admin_log_content_type_id_c4bce8eb; Type: INDEX; Schema: public; Owner: simone
+--
+
+CREATE INDEX django_admin_log_content_type_id_c4bce8eb ON public.django_admin_log USING btree (content_type_id);
+
+
+--
+-- Name: django_admin_log_user_id_c564eba6; Type: INDEX; Schema: public; Owner: simone
+--
+
+CREATE INDEX django_admin_log_user_id_c564eba6 ON public.django_admin_log USING btree (user_id);
+
+
+--
+-- Name: django_session_expire_date_a5c62663; Type: INDEX; Schema: public; Owner: simone
+--
+
+CREATE INDEX django_session_expire_date_a5c62663 ON public.django_session USING btree (expire_date);
+
+
+--
+-- Name: django_session_session_key_c0390e0f_like; Type: INDEX; Schema: public; Owner: simone
+--
+
+CREATE INDEX django_session_session_key_c0390e0f_like ON public.django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissio_permission_id_84c5c92e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissio_permission_id_84c5c92e_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_2f476e4b_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_2f476e4b_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups auth_user_groups_group_id_97559544_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_group_id_97559544_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups auth_user_groups_user_id_6a12ed8b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_6a12ed8b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: collezione_acquisto collezione_acquisto_collezionista_id_58edc285_fk_collezion; Type: FK CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_acquisto
+    ADD CONSTRAINT collezione_acquisto_collezionista_id_58edc285_fk_collezion FOREIGN KEY (collezionista_id) REFERENCES public.collezione_utente(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: collezione_acquisto collezione_acquisto_moneta_id_8e5edcca_fk_collezione_moneta_id; Type: FK CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_acquisto
+    ADD CONSTRAINT collezione_acquisto_moneta_id_8e5edcca_fk_collezione_moneta_id FOREIGN KEY (moneta_id) REFERENCES public.collezione_moneta(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: collezione_acquisto collezione_acquisto_venditore_id_86594ca5_fk_collezion; Type: FK CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_acquisto
+    ADD CONSTRAINT collezione_acquisto_venditore_id_86594ca5_fk_collezion FOREIGN KEY (venditore_id) REFERENCES public.collezione_utente(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: collezione_messaggio collezione_messaggio_destinatario_id_6527a858_fk_collezion; Type: FK CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_messaggio
+    ADD CONSTRAINT collezione_messaggio_destinatario_id_6527a858_fk_collezion FOREIGN KEY (destinatario_id) REFERENCES public.collezione_utente(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: collezione_messaggio collezione_messaggio_mittente_id_83d354e5_fk_collezion; Type: FK CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_messaggio
+    ADD CONSTRAINT collezione_messaggio_mittente_id_83d354e5_fk_collezion FOREIGN KEY (mittente_id) REFERENCES public.collezione_utente(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: collezione_possiede collezione_possiede_moneta_id_ebbbc99c_fk_collezione_moneta_id; Type: FK CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_possiede
+    ADD CONSTRAINT collezione_possiede_moneta_id_ebbbc99c_fk_collezione_moneta_id FOREIGN KEY (moneta_id) REFERENCES public.collezione_moneta(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: collezione_possiede collezione_possiede_utente_id_76d08f3d_fk_collezione_utente_id; Type: FK CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_possiede
+    ADD CONSTRAINT collezione_possiede_utente_id_76d08f3d_fk_collezione_utente_id FOREIGN KEY (utente_id) REFERENCES public.collezione_utente(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: collezione_scambio collezione_scambio_monetaControOfferta__395c051c_fk_collezion; Type: FK CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_scambio
+    ADD CONSTRAINT "collezione_scambio_monetaControOfferta__395c051c_fk_collezion" FOREIGN KEY ("monetaControOfferta_id") REFERENCES public.collezione_moneta(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: collezione_scambio collezione_scambio_monetaRichiesta_id_ecdc9345_fk_collezion; Type: FK CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_scambio
+    ADD CONSTRAINT "collezione_scambio_monetaRichiesta_id_ecdc9345_fk_collezion" FOREIGN KEY ("monetaRichiesta_id") REFERENCES public.collezione_moneta(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: collezione_scambio collezione_scambio_offerente_id_b10d7ed9_fk_collezion; Type: FK CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_scambio
+    ADD CONSTRAINT collezione_scambio_offerente_id_b10d7ed9_fk_collezion FOREIGN KEY (offerente_id) REFERENCES public.collezione_utente(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: collezione_scambio collezione_scambio_ricevente_id_835a11e0_fk_collezion; Type: FK CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_scambio
+    ADD CONSTRAINT collezione_scambio_ricevente_id_835a11e0_fk_collezion FOREIGN KEY (ricevente_id) REFERENCES public.collezione_utente(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: collezione_utente collezione_utente_user_id_d287cf4b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.collezione_utente
+    ADD CONSTRAINT collezione_utente_user_id_d287cf4b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_content_type_id_c4bce8eb_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_content_type_id_c4bce8eb_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_user_id_c564eba6_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: simone
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

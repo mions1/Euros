@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% extends 'collezione/base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block titolo %}
+        Euros - {{ moneta.nazionalita }} {{ moneta.valore }}€
+    {% endblock %}
+    {% block head %}
+        <title>Euros - {{ moneta.nazionalita }} {{ moneta.valore }}€</title>
+    {% endblock %}
+</head>
+<body>
+
+    {% block content %}
+        {% load static %}
+        {% if possiede.posseduta %}
+            <img class="moneta dettaglio posseduta" src="{% static moneta.foto %}" >
+        {% else %}
+            <img class="moneta dettaglio non_posseduta" src="{% static moneta.foto %}">
+        {% endif %}
+        <p><b>{{ moneta.valore }}€ {{ moneta.nazionalita }}</b></p>
+        <form action="{% url 'collezione:imposta_dettaglio_moneta' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" value="{{ moneta.id }}" name="moneta_id">
+            Ce l'ho:
+            {% if possiede.posseduta %}
+                <input type="checkbox" name="posseduta" value="True" checked>
+            {% else %}
+                <input type="checkbox" name="posseduta" value="True">
+            {% endif %}
+            <br>
+            Disponibile allo scambio:
+            {% if possiede.da_scambiare %}
+                <input type="checkbox" name="da_scambiare" value="True" checked>
+            {% else %}
+                <input type="checkbox" name="da_scambiare" value="True">
+            {% endif %}
+            <br>
+            Da acquistare:
+            {% if possiede.da_acquistare %}
+                <input type="checkbox" name="da_acquistare" value="True" checked>
+            {% else %}
+                <input type="checkbox" name="da_acquistare" value="True">
+            {% endif %}
+            <br><br><input type="submit" name="imposta" value="Imposta">
+        </form>
+    {% endblock %}
+    {% block indietro %}
+       <br> <a href="{% url 'collezione:catalogo' %}"><button>Indietro</button></a>
+    {% endblock %}
+</body>
+</html>

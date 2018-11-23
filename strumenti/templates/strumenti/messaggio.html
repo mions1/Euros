@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% extends 'collezione/base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block titolo %}
+        Euros - Messaggio {{ user_messaggio | capfirst}}
+    {% endblock %}
+    {% block head %}
+        <title>Euros - Messaggio {{ user_messaggio | capfirst}}</title>
+    {% endblock %}
+</head>
+
+    {% block content %}
+        <div style="width: 50%; border-style: solid; border-bottom: none">
+            <h3><center>{{ user_messaggio }}</center></h3>
+        </div>
+        <div style="width: 50%; border-style: solid;">
+            {% for messaggio in messaggi %}
+                <hr>
+    {#            Messaggio inviato da me #}
+            {% if messaggio.mittente == user.utente %}
+                <object style="">
+                    <object align="left" style="font-size: 70%; background: greenyellow">
+                        {{ messaggio.data.day }}/{{ messaggio.data.month }} {{ messaggio.data.hour }}:{{ messaggio.data.minute }}
+                    </object>
+                    <object align="right" style="background: greenyellow">
+                        {{ messaggio.testo }}
+                    </object>
+                </object>
+    {#            Messaggio ricevuto #}
+            {% else %}
+                <object style="">
+                    <object align="right" style="font-size: 70%; background: azure">
+                        {{ messaggio.data.day }}/{{ messaggio.data.month }} {{ messaggio.data.hour }}:{{ messaggio.data.minute }}
+                    </object>
+                    <object align="left" style="background: azure">
+                        {{ messaggio.testo }}
+                    </object>
+                </object>
+            {% endif %}
+                <br>
+            {% endfor %}
+        </div>
+
+        <form action="{% url 'strumenti:inviaMessaggio' user_messaggio %}" method="post">
+            {% csrf_token %}
+            </br><input type="text" name="testo"> <input type="submit" name="invia" value="Invia">
+        </form><br>
+    {% endblock %}
+
+</body>
+</html>

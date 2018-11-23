@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% extends 'collezione/base.html' %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        {% block titolo %}
+            Euros - Utenti
+        {% endblock %}
+        {% block head %}
+            <title>Euros - Utenti</title>
+            <form action="{% url 'collezione:utenti' %}" method="post">
+                {% csrf_token %}
+
+                <select name="select_tipo">
+                    <option value=".+">Tipo</option>
+                    <option value="true">Collezionisti</option>
+                    <option value="false">Venditori</option>
+                </select>
+
+                <input type="submit" name="cerca" value="Cerca">
+            </form><br>
+        {% endblock %}
+    </head>
+    <body>
+        {% block content %}
+            <table border="2px">
+            <tr>
+                <th>Username</th>
+                <th>Nome e Cognome</th>
+                <th>Tipo</th>
+            </tr>
+                {% for utente in users %}
+                        <tr>
+                            <td>{{ utente.username }}</td>
+                            <td> {{ utente.first_name }} {{ utente.last_name }} </td>
+                            <td>
+                                {% if utente.utente.collezionista %}
+                                    Collezionista
+                                {% else %}
+                                    Venditore
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a class="link" href="{% url 'utente:principale' utente.username%}">
+                                    Accedi al profilo dell'utente
+                                </a>
+                            </td>
+                        </tr>
+                {% endfor %}
+            </table>
+            <br>
+        {% endblock %}
+    </body>
+</html>

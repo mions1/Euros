@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% extends 'collezione/base.html' %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+    </head>
+
+    <body>
+        {% block content %}
+            {% for message in messages %}
+                <script>alert(message)</script>
+            {% endfor %}
+            {% block indietro %}
+                <br><button onclick="goBack()">Indietro</button>
+            {% endblock %}
+            {% load static %}
+            <table><tr>
+            <script> var nazione = ""; </script>
+            {% for moneta in monete %}
+                <script>
+                    if (nazione != "{{ moneta.nazionalita }}") {
+                        document.write("</tr></table><br>");
+                        nazione = "{{ moneta.nazionalita }}";
+                        document.write("<p style='background: gray;'><b>{{ moneta.nazionalita }}</b></p>");
+                        document.write("<table border='2'>");
+                        document.write("<tr>");
+                    }
+                </script>
+                <td>
+                    {% block link %}
+                    {% endblock %}
+                    {% if moneta in possedute %}
+                        <img class="moneta catalogo posseduta" src="{% static moneta.foto %}">
+                    {% else %}
+                        <img class="moneta catalogo non_posseduta" src="{% static moneta.foto %}">
+                    {% endif %}
+                    </a>
+                </td>
+                    <td>{{ moneta.valore }}</td>
+            {% endfor %}
+        {% endblock %}
+    </body>
+</html>

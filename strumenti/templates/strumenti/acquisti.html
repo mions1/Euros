@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+{% extends 'collezione/base.html' %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        {% block titolo %}
+            Euros - Acquisti
+        {% endblock %}
+        {% block head %}
+            <title>Euros - Acquisti</title>
+        {% endblock %}
+    </head>
+    <body>
+        {% block content %}
+            {% for message in messages %}
+                <script>alert("{{ message }}")</script>
+            {% endfor %}
+            {% if acquisti.count > 0 %}
+                <form method="post" action="{% url 'strumenti:vota' %}">
+                    {% csrf_token %}
+                    <table border="2px">
+                        <th>Venditore</th>
+                        <th>Moneta Acquistata</th>
+                        <th>Prezzo</th>
+                        <th>Data</th>
+                        <th>Voto dato dal collezionista</th>
+                        <th>Voto dato dal venditore</th>
+                        {% for acquisto in acquisti %}
+                            <tr>
+                                <td>{{ acquisto.venditore.user.username }}</td>
+                                <td>{{ acquisto.moneta.nazionalita }} {{ acquisto.moneta.valore }}</td>
+                                <td>{{ acquisto.prezzo }} €</td>
+                                <td>{{ acquisto.data }}</td>
+                                {% if acquisto.votoCollezionista != None %}
+        {#                        Caso in cui entrambi hanno votato#}
+                                    {% if acquisto.votoVenditore != None %}
+                                        <td>{{ acquisto.votoCollezionista }}</td>
+                                        <td>{{ acquisto.votoVenditore }}</td>
+                                    {% else %}
+        {#                            Caso in cui l'collezionista ha votato ma il venditore no ed io sono l'collezionista#}
+                                        {% if user.username == acquisto.collezionista.user.username %}
+                                            <td>{{ acquisto.votoCollezionista }}</td>
+                                            <td> {{ acquisto.venditore.user.username }} non ha ancora votato </td>
+        {#                                Caso in cui l'collezionista ha votato ma il venditore no ed io sono il venditore#}
+                                        {% else %}
+                                            <td> Per sapere il voto avuto devi prima votare </td>
+                                            <td>
+                                            <input type="radio" name="voto" value="1{{ acquisto.id }}">1 <input type="radio" name="voto" value="2{{ acquisto.id }}">2
+                                            <input type="radio" name="voto" value="3{{ acquisto.id }}">3 <input type="radio" name="voto" value="4{{ acquisto.id }}">4
+                                            <input type="radio" name="voto" value="5{{ acquisto.id }}">5
+                                        {% endif %}
+                                    {% endif %}
+
+                                {% else %}
+                                    {% if acquisto.votoVenditore != None %}
+        {#                            Caso in cui l'collezionista non ha votato ed il venditore si ed io sono l'collezionista#}
+                                        {% if user.username == acquisto.collezionista.user.username %}
+                                            <td>
+                                                <input type="radio" name="voto" value="1{{ acquisto.id }}">1 <input type="radio" name="voto" value="2{{ acquisto.id }}">2
+                                                <input type="radio" name="voto" value="3{{ acquisto.id }}">3 <input type="radio" name="voto" value="4{{ acquisto.id }}">4
+                                                <input type="radio" name="voto" value="5{{ acquisto.id }}">5
+                                            </td>
+                                            <td> Per sapere il voto avuto devi prima votare </td>
+        {#                            Caso in cui l'collezionista non ha votato ed il venditore si ed io sono il venditore#}
+                                        {% else %}
+                                            <td> {{ acquisto.collezionista.user.username }} non ha ancora votato </td>
+                                            <td> {{ acquisto.votoVenditore }} </td>
+                                        {% endif %}
+        {#                        Caso in cui nessuno ha votato#}
+                                    {% else %}
+        {#                        Vista collezionista#}
+                                        {% if user.username == acquisto.collezionista.user.username %}
+                                            <td>
+                                                <input type="radio" name="voto" value="1{{ acquisto.id }}">1 <input type="radio" name="voto" value="2{{ acquisto.id }}">2
+                                                <input type="radio" name="voto" value="3{{ acquisto.id }}">3 <input type="radio" name="voto" value="4{{ acquisto.id }}">4
+                                                <input type="radio" name="voto" value="5{{ acquisto.id }}">5
+                                            </td>
+                                            <td> {{ acquisto.venditore.user.username }} non ha ancora votato </td>
+        {#                            vista venditore#}
+                                        {% else %}
+                                            <td> {{ acquisto.collezionista.user.username }} non ha ancora votato </td>
+                                            <td>
+                                                <input type="radio" name="voto" value="1{{ acquisto.id }}">1 <input type="radio" name="voto" value="2{{ acquisto.id }}">2
+                                                <input type="radio" name="voto" value="3{{ acquisto.id }}">3 <input type="radio" name="voto" value="4{{ acquisto.id }}">4
+                                                <input type="radio" name="voto" value="5{{ acquisto.id }}">5
+                                            </td>
+                                        {% endif %}
+                                    {% endif %}
+                            {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    <br>
+                    <input type="submit" value="Vota">
+                </form>
+            {% else %}
+                Nessun acquisto effettuato
+            {% endif %}
+            <br>
+        {% endblock %}
+    </body>
+</html>

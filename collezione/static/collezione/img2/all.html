@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+	<head>
+	
+	
+	<style>
+		img{
+			width:90px;
+			height:80px;
+			}
+		table{
+			border:2px solid black;
+		}
+		table td{
+			border:2px solid black;
+			padding-right:8px;
+		}
+	</style>
+	
+<script type="text/javascript">
+	//19 paesi
+	paesi=new Array (
+		"Austria",
+		"Belgio",
+		"Cipro",
+		"Estonia",
+		"Finlandia",
+		"Francia",
+		"Germania",
+		"Grecia",
+		"Irlanda",
+		"Italia",
+		"Lettonia",
+		"Lituania",
+		"Lussemburgo",
+		"Malta",
+		"Olanda",
+		"Portogallo",
+		"Slovacchia",
+		"Slovenia",
+		"Spagna"
+		);
+	monete=new Array (
+		"0,01",
+		"0,02",
+		"0,05",
+		"0,10",
+		"0,20",
+		"0,50",
+		"1",
+		"2"
+		);
+	estensione="jpg";
+	</script>
+	
+	</head>
+	<body>
+		<table>
+		<tbody>
+<script type="text/javascript">
+				for (i=0;i<paesi.length;i++) {
+					document.write("<tr>");
+					document.write("<td>"+paesi[i]+"</td>");
+					for(j=0;j<monete.length;j++) {
+						document.write("<td>");
+						document.write( "<img src='"+paesi[i]+"\\"+monete[j]+"."+estensione+"'>" );
+						document.write("</td>");
+					}
+					document.write("</tr>");
+				}
+			</script>
+		</tbody>
+		</table>
+	</body>
+</html>

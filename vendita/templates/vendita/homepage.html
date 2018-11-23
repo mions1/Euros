@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'collezione/base.html' %}
+<head>
+    {% block titolo %}
+        Euros - Venditore
+    {% endblock %}
+    {% block head %}
+        <title> Homepage </title>
+        {% if user.is_authenticated %}
+            <h5> Bentornato, {{ user.first_name }}</h5>
+        {% endif %}
+    {% endblock %}
+</head>
+    {% block content %}
+        <table border="2px">
+            <tr><th>Ultime Vendite</th><th>Data</th></tr>
+                {% for acquisto in vendite %}
+                    <tr><td>
+                        <a href="{% url 'utente:profilo' acquisto.collezionista.user.username %}">
+                            <b>{{ acquisto.collezionista.user.first_name | capfirst }}</b></a> ha comprato la moneta
+                        <a href="{% url 'collezione:dettaglio_moneta' acquisto.moneta.id %}">
+                            <b>{{ acquisto.moneta.nazionalita }} {{ acquisto.moneta.valore }}€</b></a> per
+                        <b>{{ acquisto.prezzo }}€</b>
+                    </td>
+                    <td>
+                        {{ acquisto.data }}
+                    </td></tr>
+                {% endfor %}
+                <tr>
+                    <td>Totale</td>
+                    <td>{{ totale }}€</td>
+                </tr>
+            </table>
+    {% endblock %}
+    {% block indietro %}
+    {% endblock %}
+</html>

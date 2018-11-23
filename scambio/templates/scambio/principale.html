@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% extends 'collezione/base.html' %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        {% block titolo %}
+            Euros - Scambi
+        {% endblock %}
+        {% block head %}
+            <title>Euros - Scambi</title>
+        {% endblock %}
+    </head>
+    <body>
+        {% block content %}
+            <table border="2px">
+                <th>Offerente</th>
+                <th>Ricevente</th>
+                <th>Moneta Richiesta</th>
+                <th>Moneta Contro Offerta</th>
+                <th>Conferma Offerente</th>
+                <th>Conferma Ricevente</th>
+            {% for scambio in scambi %}
+                <tr>
+                    <td>{{ scambio.offerente.user.username }}</td>
+                    <td>{{ scambio.ricevente.user.username }}</td>
+                    <td>{{ scambio.monetaRichiesta.nazionalita }} {{ scambio.monetaRichiesta.valore }}</td>
+                    <td>{{ scambio.monetaControOfferta.nazionalita }} {{ scambio.monetaControOfferta.valore }}</td>
+                    <td>{{ scambio.confermaOfferente }}</td>
+                    <td>{{ scambio.confermaRicevente }}</td>
+                    <form action="{% url 'scambio:selezionaControfferta'%}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="scambio_id" value="{{ scambio.id }}">
+                        {% if scambio.monetaControOfferta == None %}
+                            {% if scambio.ricevente == user.utente %}
+                                <input type="hidden" name="userdettaglio_id" value="{{ scambio.offerente.user.username }}">
+                                <td><input type="submit" name="seleziona_controfferta" value="Seleziona contro offerta"></td>
+                            {% endif %}
+                        {% else %}
+                            {% if scambio.ricevente == user.utente and scambio.confermaRicevente == False %}
+                                <td><button name="conferma" value="ricevente">Conferma scambio</button></td>
+                            {% elif not scambio.ricevente == user.utente and scambio.confermaOfferente == False %}
+                                <td><button name="conferma" value="offerente">Conferma scambio</button></td>
+                            {% endif %}
+                        {% endif %}
+                    </form>
+                </tr>
+            {% endfor %}
+            </table>
+            <br>
+            <a href="{% url 'scambio:archivio' %}"><button>Archivio</button></a>
+        {% endblock %}
+    </body>
+</html>

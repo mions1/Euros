@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% extends 'collezione/base.html' %}
+<html lang="en">
+    <head>
+        {% load static %}
+        <meta charset="UTF-8">
+        {% block titolo %}
+            Euros - Messaggi
+        {% endblock %}
+        {% block head %}
+            <title>Euros - Messaggi</title>
+        {% endblock %}
+    </head>
+    <body>
+
+        {% block content %}
+            <hr>
+            {% if interlocutori == None %}
+                <p> Nessun messaggio </p>
+            {% else %}
+                {% for interlocutore in interlocutori %}
+                    <a href="{% url 'strumenti:messaggio' interlocutore %}">
+                        <div class="conversazioni">
+                            {{ interlocutore | capfirst }}
+                        </div>
+                    </a>
+                    <div class="cestino">
+                        <a href="{% url 'strumenti:eliminaMessaggi' interlocutore %}">
+                            <img class="cestino" src="{% static 'collezione/cestino.png' %}">
+                        </a>
+                    </div>
+                    <div style="clear: both;"></div>
+                    <hr>
+                {% endfor %}
+            {% endif %}
+        {% endblock %}
+
+    </body>
+</html>

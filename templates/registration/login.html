@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% extends 'collezione/base.html' %}
+<html lang="en">
+    {% block titolo %}
+        Euros - Login
+    {% endblock %}
+    {% block head %}
+        <title>Euros - Login</title>
+    {% endblock %}
+    {% block menu %}
+    {% endblock %}
+    {% block content %}
+        {% if user.is_authenticated %}
+            <meta http-equiv="refresh" content="0;URL={% url 'collezione:homepage' %}">
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Accedi">
+            <a href="{% url 'collezione:registrazione' %}">
+                <button>Registrati</button>
+            </a>
+        </form>
+    {% endblock %}
+    {% block indietro %}
+    {% endblock %}
+</html>

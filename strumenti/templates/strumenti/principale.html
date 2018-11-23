@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% extends 'collezione/base.html' %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        {% block titolo %}
+            Euros - Strumenti
+        {% endblock %}
+        {% block head %}
+            <title>Euros - Strumenti</title>
+        {% endblock %}
+    </head>
+    <body>
+        {% block content %}
+            <a href="{% url 'strumenti:messaggi' %}">
+            {% if messaggi_count > 0 %}
+                <button  style="background: greenyellow">Messaggi ({{ messaggi_count }})</button>
+            {% else %}
+                <button>Messaggi</button>
+            {% endif %}
+            </a>
+            {% if user.utente.collezionista %}
+                <a href="{% url 'scambio:principale' %}">
+                {% if scambi_count > 0 %}
+                    <button  style="background: greenyellow">Scambi ({{ scambi_count }})</button>
+                {% else %}
+                    <button>Scambi </button>
+                {% endif %}
+                    </a>
+                <a href="{% url 'strumenti:acquisti' %}"><button>Acquisti</button></a>
+                <a href="{% url 'strumenti:cerca' %}"><button>Cerca</button></a>
+            {% else %}
+                <a href="{% url 'strumenti:vendite' %}"><button>Vendite</button></a>
+            {% endif %}
+        {% endblock %}
+    </body>
+</html>

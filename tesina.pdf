@@ -1,0 +1,39 @@
+Questo software è pensato per i collezionisti di monete euro dei vari paesi che adottano questa valuta.
+
+Gli utenti possono registrarsi come collezionisti o come venditori.
+
+Ogni utente può scambiare messaggi con un altro utente tramite l'implementazione di una sorta di messaggistica istantanea.
+
+Ogni utente può vedere il suo profilo ed alcune statistiche ad esso collegato, come ad esempio quante monete ha nella propria collezione, quanti acquisti ha concluso, etc.
+
+Ogni collezionista ha a disposizione un catalogo che presenta ogni moneta esistente; da questo catalogo può selezionare ed impostare quelle possedute, quelle che mette a disposizione per gli scambi e quelle che vorrebbe acquistare.
+
+I collezionisti tra di loro possono scambiarsi le monete, mentre un collezionista può acquistare monete da un venditore.
+
+Un venditore ha a disposizione, anch'esso, un catalogo, dal quale può impostare il prezzo di vendita delle proprie monete.
+
+In seguito ad un acquisto/scambio, gli utenti devono votarsi tra di loro per impostare cosi l'affidabilità.
+
+-------------------------------------------
+
+Le applicazioni presenti nel progetto django sono:
+	collezione: applicazione principale, presenta il modello dei dati, le views per l'utente stesso, file statici come immagini e .css;
+	
+	strumenti: contiene le views delle altre funzionalità del software, come ad esempio la messaggistica, gli scambi, gli acquisti, etc;
+	
+	scambio: contiene le views per lo strumento di scambio delle monete;
+	
+	vendita: contiene le views per lo strumento di vendita/acquisto delle monete;
+	
+	utente: contiene le views dei profili degli altri utenti
+	
+----------------------------------------------
+
+Ho scelto di utilizzare postgres poichè alcune funzionalità di cui necessitavo, come ad esempio la 'distinct', non erano disponibili su sqlite.
+
+----------------------------------------------
+
+Il database è costituito nel seguente modo:
+
+*Foto database tutto*
+

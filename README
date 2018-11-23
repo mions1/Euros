@@ -1,0 +1,15 @@
+Il database utilizzato dal software è POSTGRES, quindi bisogna installarlo.
+Per come è configurato il file settings.py bisogna avere un account postgres con user 'simone' e password 'ciao'
+ed il nome del database è 'collezione'.
+
+Far partire il server localhost tramite il comando 'python manage.py runserver' e cominciare dal url '.../collezione/';
+
+Nel dump del db ci sono i seguenti record di esempio:
+    *le monete dell'UE
+    *3 utenti di cui due collezionisti ed un venditore, rispettivamente le credenziali
+        **username: sim password: ciao
+        **username: lor password: ciao
+        **username: mar passowrd: ciao
+    *vari messaggi scambiati tra questi utenti
+    *vari acqusti e scambi tra questi utenti
+    *qualche moneta impostata come "posseduta", "da_scambiare", "da_acquistare" ed in vendita

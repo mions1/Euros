@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% extends 'collezione/base.html' %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        {% block titolo %}
+            Euros - Profilo
+        {% endblock %}
+        {% block head %}
+            <title>Profilo</title>
+        {% endblock %}
+    </head>
+    <body>
+        {% block content %}
+            {% csrf_token %}
+            <table border="2">
+                <tr>
+                    <th >Profilo di {{ user_to_show.username | capfirst }}</th>
+                </tr>
+                <tr>
+                    <th>Nome</th> <td>{{ user_to_show.first_name }}</td>
+                </tr>
+                <tr>
+                    <th>Cognome</th> <td>{{ user_to_show.last_name }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th> <td>{{ user_to_show.email }}</td>
+                </tr>
+                <tr>
+                    <th>Data di nascita</th> <td>{{ user_to_show.utente.data_nascita }}</td>
+                </tr>
+                    {% if not user_to_show.utente.collezionista %}
+                        <tr>
+                            <th>Iban</th> <td>{{ user_to_show.utente.iban }}</td>
+                        </tr>
+                    {% endif %}
+                <tr>
+                    <th>Affidabilità</th> <td>{{ affidabilita }}/5</td>
+                </tr>
+            </table>
+            <br>
+            <table border="2">
+                <tr>
+                    <th >Statistiche</th>
+                </tr>
+                <tr>
+                    <th>Monete Possedute</th> <td>{{ monete_possedute.count }}</td>
+                </tr>
+                <tr>
+                    <th>Patrimonio</th> <td>{{ patrimonio }} €</td>
+                </tr>
+                <tr>
+                    <th>Scambi Effettuati</th> <td>{{ scambi_effettuati.count }}</td>
+                </tr>
+                <tr>
+                    <th>Acquisti Effettuati</th> <td>{{ acquisti_effettuati.count }}</td>
+                </tr>
+            </table>
+            <br>
+        {% endblock %}
+    </body>
+</html>

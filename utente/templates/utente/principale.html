@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% extends 'collezione/base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block titolo %}
+        Euros - Profilo {{ user_dettaglio.first_name }} {{ user_dettaglio.last_name }}
+    {% endblock %}
+    {% block head %}
+        <title>Euros - Profilo Utente</title>
+    {% endblock %}
+</head>
+<body>
+    {% block content %}
+        <br>
+        <a href="{% url 'utente:catalogo' user_dettaglio.username %}">
+            <button>Catalogo Utente</button></a>
+        <a href="{% url 'utente:profilo' user_dettaglio.username %}">
+            <button>Profilo Utente</button></a>
+        <a href="{% url 'strumenti:messaggio' user_dettaglio.username %}">
+            <button>Invia messaggio</button></a>
+    {% endblock %}
+</body>
+</html>

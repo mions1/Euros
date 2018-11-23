@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+{% extends 'collezione/base.html' %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        {% block titolo %}
+            Euros - Archivio
+        {% endblock %}
+        {% block head %}
+            <title>Euros - Archivio</title>
+        {% endblock %}
+    </head>
+        {% block content %}
+            {% for message in messages %}
+                <script>alert("{{ message }}")</script>
+            {% endfor %}
+            {% if scambi.count > 0 %}
+
+                <form method="post" action="{% url 'scambio:vota' %}">
+                {% csrf_token %}
+                    <table border="2px">
+                        <th>Offerente</th>
+                        <th>Ricevente</th>
+                        <th>Moneta Richiesta</th>
+                        <th>Moneta Contro Offerta</th>
+                        <th>Voto dato dall'offerente</th>
+                        <th>Voto dato dal ricevente</th>
+                    {% for scambio in scambi %}
+                        <tr>
+                            <td>{{ scambio.offerente.user.username }}</td>
+                            <td>{{ scambio.ricevente.user.username }}</td>
+                            <td>{{ scambio.monetaRichiesta.nazionalita }} {{ scambio.monetaRichiesta.valore }}</td>
+                            <td>{{ scambio.monetaControOfferta.nazionalita }} {{ scambio.monetaControOfferta.valore }}</td>
+
+                            {% if scambio.votoOfferente != None %}
+        {#                        Caso in cui entrambi hanno votato#}
+                                {% if scambio.votoRicevente != None %}
+                                    <td>{{ scambio.votoOfferente }}</td>
+                                    <td>{{ scambio.votoRicevente }}</td>
+                                {% else %}
+        {#                            Caso in cui l'offerente ha votato ma il ricevente no ed io sono l'offerente#}
+                                    {% if user.username == scambio.offerente.user.username %}
+                                        <td>{{ scambio.votoOfferente }}</td>
+                                        <td> {{ scambio.ricevente.user.username }} non ha ancora votato </td>
+        {#                                Caso in cui l'offerente ha votato ma il ricevente no ed io sono il ricevente#}
+                                    {% else %}
+                                        <td> Per sapere il voto avuto devi prima votare </td>
+                                        <td>
+                                            <input type="radio" name="voto" value="1{{ scambio.id }}">1 <input type="radio" name="voto" value="2{{ scambio.id }}">2
+                                            <input type="radio" name="voto" value="3{{ scambio.id }}">3 <input type="radio" name="voto" value="4{{ scambio.id }}">4
+                                            <input type="radio" name="voto" value="5{{ scambio.id }}">5
+                                    {% endif %}
+                                {% endif %}
+
+                            {% else %}
+                                {% if scambio.votoRicevente != None %}
+        {#                            Caso in cui l'offerente non ha votato ed il ricevente si ed io sono l'offerente#}
+                                    {% if user.username == scambio.offerente.user.username %}
+                                        <td>
+                                            <input type="radio" name="voto" value="1{{ scambio.id }}">1 <input type="radio" name="voto" value="2{{ scambio.id }}">2
+                                            <input type="radio" name="voto" value="3{{ scambio.id }}">3 <input type="radio" name="voto" value="4{{ scambio.id }}">4
+                                            <input type="radio" name="voto" value="5{{ scambio.id }}">5
+                                        </td>
+                                        <td> Per sapere il voto avuto devi prima votare </td>
+        {#                            Caso in cui l'offerente non ha votato ed il ricevente si ed io sono il ricevente#}
+                                    {% else %}
+                                        <td> {{ scambio.offerente.user.username }} non ha ancora votato </td>
+                                        <td> {{ scambio.votoRicevente }} </td>
+                                    {% endif %}
+        {#                        Caso in cui nessuno ha votato#}
+                                {% else %}
+        {#                        Vista offerente#}
+                                    {% if user.username == scambio.offerente.user.username %}
+                                        <td>
+                                            <input type="radio" name="voto" value="1{{ scambio.id }}">1 <input type="radio" name="voto" value="2{{ scambio.id }}">2
+                                            <input type="radio" name="voto" value="3{{ scambio.id }}">3 <input type="radio" name="voto" value="4{{ scambio.id }}">4
+                                            <input type="radio" name="voto" value="5{{ scambio.id }}">5
+                                        </td>
+                                        <td> {{ scambio.ricevente.user.username }} non ha ancora votato </td>
+        {#                            vista ricevente#}
+                                    {% else %}
+                                        <td> {{ scambio.offerente.user.username }} non ha ancora votato </td>
+                                        <td>
+                                            <input type="radio" name="voto" value="1{{ scambio.id }}">1 <input type="radio" name="voto" value="2{{ scambio.id }}">2
+                                            <input type="radio" name="voto" value="3{{ scambio.id }}">3 <input type="radio" name="voto" value="4{{ scambio.id }}">4
+                                            <input type="radio" name="voto" value="5{{ scambio.id }}">5
+                                        </td>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    </table>
+                    <br>
+                    <input type="submit" value="Vota">
+                </form>
+            {% else %}
+                <p> Nessuno scambio passato </p>
+            {% endif %}<br>
+        {% endblock %}
+    </body>
+</html>

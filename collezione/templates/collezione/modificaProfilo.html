@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% extends 'collezione/base.html' %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        {% block titolo %}
+            Euros - Modifica Profilo
+        {% endblock %}
+        {% block head %}
+            <title>Euros - Modifica Profilo</title>
+        {% endblock %}
+    </head>
+    <body>
+        {% block content %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p> {{ message }} </p>
+                {% endfor %}
+            {% endif %}
+            <form action="{% url 'collezione:modificaProfilo' %}" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                {% if not user.utente.collezionista %}
+                    Iban: <input type="text" name="iban"><br>
+                {% endif %}
+                <input type="submit" value="Modifica" />
+            </form>
+            <br>
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% extends 'collezione/base_catalogo.html' %}
+<html lang="en">
+    {% block titolo %}
+        Euros - Catalogo Venditore
+    {% endblock %}
+    {% block head %}
+        <title>Euros - Catalogo Venditore</title>
+        <form action="{% url 'vendita:catalogo' %}" method="post">
+            {% csrf_token %}
+            <select name="select_nazionalita">
+                <option value=".+">Nazionalita</option>
+            {% for nazione in nazionalita_select %}
+                <option value="{{ nazione }}">{{ nazione }}</option>
+            {% endfor %}
+            </select>
+
+            <select name="select_valore">
+                <option value=".+">Valore</option>
+            {% for valore in valori_select %}
+                <option value="{{ valore }}">{{ valore }}</option>
+            {% endfor %}
+            </select>
+
+            <select name="select_posseduta">
+                <option value=".+">Posseduta</option>
+                <option value="1">Si</option>
+                <option value="0">No</option>
+            </select>
+
+            <input type="submit" name="cerca" value="Cerca">
+        </form>
+    {% endblock %}
+
+<body>
+    {% for moneta in monete %}
+        {% block link %}
+            <a href="{% url 'vendita:dettaglio_moneta' moneta.id %}">
+        {% endblock %}
+    {% endfor %}
+</body>
+</html>
